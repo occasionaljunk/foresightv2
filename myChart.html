@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Foresight</title>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script> -->
+    <script src="jquery.min.js"></script>
+    <script src="Chart.bundle.js"></script>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div id="totalscircle">
+        <span class="totalscircle-value">1000</span>        
+    </div>
+
+    <div id="custom-chart-tooltip">
+    </div>
+
+    <div id="chart-legends"></div>
+
+    <div id="totalscircle-context-menu" class="context-menu">
+        <ul>
+            <li><a id="changelimit" href="#" data-toggle="modal" data-target="#changelimitmodal">Change Limit</a></li>
+        </ul>
+    </div>
+
+    <div id="transfer-context-menu" class="context-menu">
+        <ul>
+            <li><a id="transferanamount" href="#" data-toggle="modal" data-target="#transfermodal">Transfer an Amount</a></li>
+            <li><a id="addanewchargetype" data-toggle="modal" data-target="#newchargetypemodal" href="#">Add a new Charge Type</a></li>
+        </ul>
+    </div>
+
+    <div id="chargetype-context-menu" class="context-menu">
+        <ul>
+            <li><a id="addElem" href="#" data-toggle="modal" data-target="#exampleModal">Add</a></li>
+            <li><a id="deleteElem" href="#" data-toggle="modal" data-target="#deletefromchargetype">Delete</a></li>
+        </ul>
+    </div>
+
+    <canvas id="myChart" width="100%" height="40%"></canvas>
+
+    <div class="modal" id="dragndrophowmuch">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="dragndrophowmuch_value">How much do you want to move?</label>
+                        <input id="dragndrophowmuch_value" class="form-control">
+                    </div>
+                    <div class="modal-buttons">
+                        <button type="button" id="executetransferspecificamount" class="btn btn-primary" data-dismiss="modal">OK</button>
+                        <button type="button" id="onCancel" class="btn btn-primary btn-danger" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="dragndropconfirm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Do you want to move the whole amount?</label>
+                    </div>
+                    <div class="modal-buttons">
+                        <button type="button" id="executetransferwholeamount" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                        <button type="button" id="transferspecificamount" class="btn btn-primary btn-primary" data-toggle="modal" data-target="#dragndrophowmuch">No</button>
+                        <button type="button" id="onCancel" class="btn btn-primary btn-danger" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal" id="changelimitmodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="newlimit">New limit:</label>
+                        <input id="newlimit" class="form-control">
+                    </div>
+                    <div class="modal-buttons">
+                        <button type="button" id="executenewlimit" class="btn btn-primary" data-dismiss="modal">OK</button>
+                        <button type="button" id="onCancel" class="btn btn-primary btn-danger" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="newchargetypemodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="customchargetypename">Custom name:</label>
+                        <input id="customchargetypename" class="form-control">
+                    </div>
+                    <div class="form-group amount">
+                        <label for="newchargetypeamount">Amount:</label>
+
+                        <input id="newchargetypeamount" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Account:</label>
+                        <select class="form-control accountselect" id="newchargetypeaccount"></select>
+                    </div>
+                    <div class="modal-buttons">
+                        <button type="button" id="executenewchargetype" class="btn btn-primary" data-dismiss="modal">OK</button>
+                        <button type="button" id="onCancel" class="btn btn-primary btn-danger" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="transfermodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="transferfrom">Transfer from:</label>
+                        <select class="form-control accountselect" id="transferfrom"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="chargetype">Charge type:</label>
+                        <select class="form-control chargetypeselect" id="chargetype"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="transferto">Transfer to:</label>
+                        <select class="form-control accountselect" id="transferto"></select>
+                    </div>
+                    <div class="form-group transferamount">
+                        <label for="transferamount_textfield">Transfer amount:</label>
+                        <input id="transferamount_textfield" class="form-control">
+                    </div>
+                    <div class="modal-buttons">
+                        <button type="button" id="executetransfer" class="btn btn-primary" data-dismiss="modal">OK</button>
+                        <button type="button" id="onCancel" class="btn btn-primary btn-danger" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="deletefromchargetype">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <select class="form-control chargetypeselect" id="delete_from_chartLabels"></select>
+                    </div>
+                    <div class="form-group chartvalue">
+                        <input id="delete_from_chartValue" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" id="executedeletefromchargetype" class="btn btn-primary" data-dismiss="modal">OK</button>
+                        <button type="button" id="onCancel" class="btn btn-primary btn-danger" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal" id="exampleModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <select class="form-control chargetypeselect" id="chartLabels"></select>
+                    </div>
+                    <div class="form-group chartvalue">
+                        <input id="chartValue" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" id="onSubmit" class="btn btn-primary" data-dismiss="modal">OK</button>
+                        <button type="button" id="onCancel" class="btn btn-primary btn-danger" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="bootstrap.min.js"></script>
+</body>
+</html>
